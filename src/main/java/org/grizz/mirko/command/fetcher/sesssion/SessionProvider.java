@@ -1,7 +1,7 @@
-package org.grizz.mirko.command.fetcher.service;
+package org.grizz.mirko.command.fetcher.sesssion;
 
 import com.crozin.wykop.sdk.Application;
-import com.crozin.wykop.sdk.Session;
+import com.crozin.wykop.sdk.AuthenticatedSession;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -22,6 +22,7 @@ public class SessionProvider {
     private final static String PRIVATE_KEY = "mirko.key.secret.";
     private final static String USER_KEY = "mirko.key.user.";
     private Iterator<KeyPair> keysIterator;
+    private int keysAmount;
 
     @Autowired
     private Environment env;
@@ -34,22 +35,27 @@ public class SessionProvider {
         String userKey;
         int counter = 1;
 
-        log.info("Loading app-keys...");
+        log.info("Loading API keys...");
         while ((publicKey = env.getProperty(PUBLIC_KEY + counter)) != null &&
                 (privateKey = env.getProperty(PRIVATE_KEY + counter)) != null &&
                 (userKey = env.getProperty(USER_KEY + counter)) != null) {
             keysList.add(new KeyPair(publicKey, privateKey, userKey));
+            keysAmount = counter;
             counter++;
         }
         keysIterator = Iterables.cycle(keysList).iterator();
 
-        log.info("Loaded {} app-keys", counter - 1);
+        log.info("Loaded {} API keys", counter - 1);
     }
 
-    public synchronized Session getSession() {
+    public synchronized AuthenticatedSession getSession() {
         KeyPair keys = keysIterator.next();
-        Application app = new Application(keys.publicKey, keys.getPrivateKey());
-        return app.openSession();
+        Application app = new Application(keys.getPublicKey(), keys.getPrivateKey());
+        return app.openSession(keys.getUserKey());
+    }
+
+    public int getKeysAmount() {
+        return keysAmount;
     }
 
     @Getter

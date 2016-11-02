@@ -18,7 +18,7 @@ public class MirkofetcherApplication {
 	@Autowired
 	private MirkoFetcherTask task;
 
-	@Scheduled(cron = "0 */5 * * * *")
+	@Scheduled(cron = "0 */1 * * * *")
 	public void runScheduledTask() {
 		task.run();
 	}

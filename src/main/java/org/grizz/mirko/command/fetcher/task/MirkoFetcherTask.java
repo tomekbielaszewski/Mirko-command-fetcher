@@ -1,9 +1,9 @@
 package org.grizz.mirko.command.fetcher.task;
 
 import lombok.extern.slf4j.Slf4j;
+import org.grizz.mirko.command.fetcher.model.Notification;
 import org.grizz.mirko.command.fetcher.model.NotificationToCommandConverter;
 import org.grizz.mirko.command.fetcher.model.PlayerCommand;
-import org.grizz.mirko.command.fetcher.model.Notification;
 import org.grizz.mirko.command.fetcher.model.repo.PlayerCommandRepository;
 import org.grizz.mirko.command.fetcher.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ public class MirkoFetcherTask implements Runnable {
         save(commands);
     }
 
-    private void save(List<PlayerCommand> commands) {
-        log.info("saving {} new commands", commands.size());
-        commandRepository.save(commands);
+    private List<Notification> downloadNewNotifications() {
+        log.info("downloading notifications");
+        return notificationService.download();
     }
 
     private List<PlayerCommand> convertToCommands(List<Notification> notifications) {
@@ -41,8 +41,8 @@ public class MirkoFetcherTask implements Runnable {
                 .collect(Collectors.toList());
     }
 
-    private List<Notification> downloadNewNotifications() {
-        log.info("downloading notifications");
-        return notificationService.download();
+    private void save(List<PlayerCommand> commands) {
+        log.info("saving {} new commands", commands.size());
+        commandRepository.save(commands);
     }
 }
