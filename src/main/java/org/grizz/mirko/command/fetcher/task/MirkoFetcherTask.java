@@ -2,7 +2,7 @@ package org.grizz.mirko.command.fetcher.task;
 
 import lombok.extern.slf4j.Slf4j;
 import org.grizz.mirko.command.fetcher.model.Notification;
-import org.grizz.mirko.command.fetcher.model.NotificationToCommandConverter;
+import org.grizz.mirko.command.fetcher.model.converter.NotificationToCommandConverter;
 import org.grizz.mirko.command.fetcher.model.PlayerCommand;
 import org.grizz.mirko.command.fetcher.model.repo.PlayerCommandRepository;
 import org.grizz.mirko.command.fetcher.service.NotificationService;
