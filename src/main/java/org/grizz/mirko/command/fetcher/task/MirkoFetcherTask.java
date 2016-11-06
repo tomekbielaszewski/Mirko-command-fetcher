@@ -25,8 +25,10 @@ public class MirkoFetcherTask implements Runnable {
     @Override
     public void run() {
         List<Notification> notifications = downloadNewNotifications();
-        List<PlayerCommand> commands = convertToCommands(notifications);
-        save(commands);
+        if(!notifications.isEmpty()) {
+            List<PlayerCommand> commands = convertToCommands(notifications);
+            save(commands);
+        }
     }
 
     private List<Notification> downloadNewNotifications() {

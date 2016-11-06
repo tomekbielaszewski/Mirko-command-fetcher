@@ -27,7 +27,6 @@ public class NotificationService {
 
     public List<Notification> download() {
         ArrayList<Notification> notifications = Lists.newArrayList();
-        session.startNew();
 
         if (hasNewNotifications()) {
             List<WykopNotification> newPrivateMessagesNotifications = getNewPrivateMessageNotifications();

@@ -8,13 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
+
 @Slf4j
 @SpringBootApplication
 @EnableScheduling
-public class MirkofetcherApplication {
+public class Starter {
 
     public static void main(String[] args) {
-        SpringApplication.run(MirkofetcherApplication.class, args);
+        SpringApplication.run(Starter.class, args);
     }
 
     @Autowired
